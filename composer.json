@@ -1,0 +1,21 @@
+{
+    "name": "dazeus/dazeus-php",
+    "description": "DaZeus PHP bindings",
+    "license": "MIT",
+    "minimum-stability": "beta",
+    "authors": [
+        {
+            "name": "Ruben Nijveld",
+            "email": "ruben@gewooniets.nl"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "react/socket": "0.3.*",
+        "react/promise": "1.0.*",
+        "psr/log": "1.0.0"
+    },
+    "autoload": {
+        "psr-0": {"DaZeus": "src/"}
+    }
+}
