@@ -7,3 +7,4 @@ $dazeus = DaZeus\Factory::create('unix:///tmp/dazeus.sock');
 $dazeus->subscribe('message', function ($message) {
     $message->reply($message->getMessage());
 });
+$dazeus->run();
