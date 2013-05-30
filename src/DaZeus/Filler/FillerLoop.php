@@ -6,12 +6,16 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\Timer\TimerInterface;
+use React\Promise\PromiseInterface;
+use StdClass;
 
 class FillerLoop implements FillerLoopInterface
 {
     protected $loop;
 
     protected $logger;
+
+    protected $isActive;
 
     public function __construct(LoopInterface $loop, LoggerInterface $logger = null)
     {
@@ -22,7 +26,7 @@ class FillerLoop implements FillerLoopInterface
         }
 
         $this->logger = $logger;
-        $this->filler = new Filler($loop, $logger);
+        $this->isActive = false;
     }
 
     /**
@@ -110,6 +114,7 @@ class FillerLoop implements FillerLoopInterface
      */
     public function run()
     {
+        $this->isActive = true;
         return $this->loop->run();
     }
 
@@ -118,7 +123,18 @@ class FillerLoop implements FillerLoopInterface
      */
     public function stop()
     {
-        return $this->loop->stop();
+        $result = $this->loop->stop();
+        $this->isActive = false;
+        return $result;
+    }
+
+    /**
+     * Returns whether or not the loop is running
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
     }
 
     /**
@@ -126,6 +142,27 @@ class FillerLoop implements FillerLoopInterface
      */
     public function fill($promise)
     {
-        return $this->filler->fill($promise);
+        if ($promise instanceof PromiseInterface) {
+            $obj = new StdClass();
+            $obj->filled = false;
+            $obj->result = null;
+            $logger = $this->logger;
+            $promise->then(function ($result) use ($obj) {
+                $obj->filled = true;
+                $obj->result = $result;
+                return $result;
+            }, function () {
+                throw new CouldNotFulfillException();
+            });
+
+            $loops = 0;
+            while ($obj->filled === false) {
+                $this->loop->tick();
+                $loops += 1;
+            }
+            return $obj->result;
+        } else {
+            return $promise;
+        }
     }
 }

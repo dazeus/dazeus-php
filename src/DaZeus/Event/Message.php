@@ -2,14 +2,35 @@
 
 namespace DaZeus\Event;
 
+/**
+ * Message event (i.e. privmsg)
+ */
 class Message extends Event
 {
+    public $network;
+
+    public $channel;
+
+    public $nick;
+
+    public $message;
+
+    public function init()
+    {
+        parent::init();
+        $this->network = $this['params'][0];
+        $this->channel = $this['params'][1];
+        $this->nick    = $this['params'][2];
+        $this->message = $this['params'][3];
+
+    }
+
     public function reply($message)
     {
         return $this->dazeus->reply(
-            $this->getNetwork(),
-            $this->getChannel(),
-            $this->getNick(),
+            $this->network,
+            $this->channel,
+            $this->nick,
             $message,
             false,
             false
@@ -19,9 +40,9 @@ class Message extends Event
     public function highlight($message)
     {
         return $this->dazeus->reply(
-            $this->getNetwork(),
-            $this->getChannel(),
-            $this->getNick(),
+            $this->network,
+            $this->channel,
+            $this->nick,
             $message,
             true,
             false
@@ -31,32 +52,12 @@ class Message extends Event
     public function action($message)
     {
         return $this->dazeus->reply(
-            $this->getNetwork(),
-            $this->getChannel(),
-            $this->getNick(),
+            $this->network,
+            $this->channel,
+            $this->nick,
             $message,
             false,
             true
         );
-    }
-
-    public function getNick()
-    {
-        return $this['params'][1];
-    }
-
-    public function getMessage()
-    {
-        return $this['params'][3];
-    }
-
-    public function getChannel()
-    {
-        return $this['params'][2];
-    }
-
-    public function getNetwork()
-    {
-        return $this['params'][0];
     }
 }

@@ -40,6 +40,11 @@ class Event extends ArrayObject
     {
         parent::__construct($event);
         $this->dazeus = $instance;
-        $this->event = $event;
+        $this->init();
+    }
+
+    public function init()
+    {
+        $this->event = $this['event'];
     }
 }

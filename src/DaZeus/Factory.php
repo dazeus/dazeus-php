@@ -5,8 +5,9 @@ namespace DaZeus;
 use DaZeus\Filler\FillerLoop;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use React\EventLoop\LoopInterface;
 use React\EventLoop\Factory as EventLoopFactory;
+use React\EventLoop\LoopInterface;
+use React\EventLoop\StreamSelectLoop;
 
 
 class Factory
@@ -14,7 +15,7 @@ class Factory
     public static function create($socket, LoopInterface $loop = null, LoggerInterface $logger = null)
     {
         if ($loop === null) {
-            $loop = EventLoopFactory::create();
+            $loop = new StreamSelectLoop();
         }
 
         if ($logger === null) {

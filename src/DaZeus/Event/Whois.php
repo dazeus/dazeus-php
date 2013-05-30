@@ -4,13 +4,14 @@ namespace DaZeus\Event;
 
 class Whois extends Event
 {
-    public function getNetwork()
-    {
-        return $this['params'][0];
-    }
+    public $network;
 
-    public function getNick()
+    public $nick;
+
+    public function init()
     {
-        return $this['params'][2];
+        parent::init();
+        $this->network = $this['params'][0];
+        $this->nick = $this['params'][2];
     }
 }

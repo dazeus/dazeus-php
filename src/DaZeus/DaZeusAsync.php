@@ -267,7 +267,7 @@ class DaZeusAsync implements DaZeusInterface, FillerInterface
      */
     public function getConfig($name, $group = self::GROUP_PLUGIN)
     {
-        if ($this->handshake) {
+        if ($group === self::GROUP_CORE || $this->handshake) {
             $data = [
                 'get' => 'config',
                 'params' => [$group, $name],

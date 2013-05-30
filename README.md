@@ -7,13 +7,7 @@ from their site, you can then do:
 
     composer install dazeus/dazeus-php
 
-PHP without any additional components will work just fine, however if you install
-`libevent` using pecl you'll get a little efficiency boost ([react][], on which
-this library is based uses a stream-select loop by default, which basically is an
-algorithm that polls for changes every so often, whereas [libevent][] uses OS-specific
-implementations such as kqueue).
-
-    pecl install libevent
+PHP should run fine without any additional modules or extensions.
 
 ## Usage
 You can run these bindings in either asynchronous mode or in synchonous mode. In asynchonous
