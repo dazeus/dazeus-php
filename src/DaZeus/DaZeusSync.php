@@ -129,9 +129,9 @@ class DaZeusSync implements DaZeusInterface, FillerInterface
     /**
      * {@inheritdoc}
      */
-    public function getHighlightCharacter()
+    public function highlightCharacter()
     {
-        return $this->loop->fill($this->async->getHighlightCharacter());
+        return $this->loop->fill($this->async->highlightCharacter());
     }
 
     /**

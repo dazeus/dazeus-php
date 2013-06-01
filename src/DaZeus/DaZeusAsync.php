@@ -287,7 +287,7 @@ class DaZeusAsync implements DaZeusInterface, FillerInterface
     /**
      * {@inheritdoc}
      */
-    public function getHighlightCharacter()
+    public function highlightCharacter()
     {
         return $this->getConfig('highlight', self::GROUP_CORE);
     }

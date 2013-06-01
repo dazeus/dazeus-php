@@ -119,7 +119,7 @@ interface DaZeusInterface
     /**
      * Retrieve the character by which the bot is notified of a command
      */
-    public function getHighlightCharacter();
+    public function highlightCharacter();
 
     /**
      * Retrieve a property in the storage of the dazeus server
